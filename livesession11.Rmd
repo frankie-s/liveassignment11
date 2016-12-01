@@ -1,0 +1,59 @@
+---
+title: "liveassignment11"
+author: "frank sclafani"
+date: "11/27/2016"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+## 1)	Go through the electric equipment example. 
+# a)	Plot the time series. Can you identify seasonal fluctuations and/or a trend? 
+
+```{r visitors}
+library(fpp)
+data(visitors)
+```
+
+## Plot the data
+# Yes, seasional trends are able to be identified by the peaks and valleys occuring on a regular basis.
+```{r plot1}
+plot(visitors)
+```
+
+#b)	Use a classical decomposition to calculate the trend-cycle and seasonal indices. 
+```{r decompose}
+data(visitors)
+decompose(visitors)
+```
+
+##c)	Do the results support the graphical interpretation from part (a)? 
+Yes, the reoccuring values in the seasonal data ser support the gaphical interpertation
+
+d)	Compute and plot the seasonally adjusted data. 
+```{r plotseasonal, echo=FALSE}
+visitor.seasonal = stl(visitors, s.window="periodic")$time.series[,"seasonal"]
+plot(visitor.seasonal)
+```
+
+#e)	Change one observation to be an outlier (e.g., add 500 to one observation), and recompute the seasonally adjusted data. What is the effect of the outlier? 
+```{r outlier1, echo=FALSE}
+visitor.seasonal[5] = 500
+plot(visitor.seasonal)
+```
+##The effect is that there is a large value that clearly is an outlier and skews the graph
+
+f)	Does it make any difference if the outlier is near the end rather than in the middle of the time series? 
+```{r outlier2, echo=FALSE}
+visitor.seasonal[230] = 500
+plot(visitor.seasonal)
+```
+##No difference other than the outlier is on the other end of the chart
+
+g)	Use STL to decompose the series. 
+```{r STL, echo=FALSE}
+visitors.stl = stl(visitors, s.window = "periodic")
+plot(visitors.stl)
+```
